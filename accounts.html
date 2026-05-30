@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accounts — CaveCrew</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/accounts.css" />
+</head>
+<body class="dashboard-page">
+
+  <!-- Same sidebar structure -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__header">
+      <a href="index.html" class="nav__logo">
+        <div class="logo-icon logo-icon--sm">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+            <path d="M16 2L4 8v8c0 7.18 5.16 13.9 12 15.93C23.84 29.9 29 23.18 29 16V8L16 2z" fill="url(#logoGradAcc)" />
+            <path d="M10 16l4 4 8-8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+            <defs>
+              <linearGradient id="logoGradAcc" x1="4" y1="2" x2="29" y2="32" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#6366f1"/>
+                <stop offset="1" stop-color="#06b6d4"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="logo-text">Cave<span class="logo-accent">Crew</span></span>
+      </a>
+      <button class="sidebar__collapse-btn" id="sidebarCollapseBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+    </div>
+    <div class="workspace-selector"><div class="ws-current"><div class="ws-avatar">CC</div><div class="ws-info"><span class="ws-name">My Workspace</span><span class="ws-plan">Agency Plan</span></div></div></div>
+    <nav class="sidebar__nav">
+      <div class="sidebar__nav-section">
+        <span class="nav-section-label">Main</span>
+        <ul>
+          <li><a href="dashboard.html" class="sidebar__nav-item" id="navDashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span>Dashboard</span></a></li>
+          <li><a href="accounts.html" class="sidebar__nav-item sidebar__nav-item--active" id="navAccounts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Accounts</span><span class="nav-badge">7</span></a></li>
+          <li><a href="#" class="sidebar__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Scheduler</span></a></li>
+          <li><a href="#" class="sidebar__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Unified Inbox</span><span class="nav-badge nav-badge--alert">23</span></a></li>
+        </ul>
+      </div>
+      <div class="sidebar__nav-section">
+        <span class="nav-section-label">Analytics</span>
+        <ul>
+          <li><a href="#" class="sidebar__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Analytics</span></a></li>
+          <li><a href="#" class="sidebar__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>Reports</span></a></li>
+        </ul>
+      </div>
+      <div class="sidebar__nav-section">
+        <span class="nav-section-label">Team</span>
+        <ul>
+          <li><a href="#" class="sidebar__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg><span>Team</span></a></li>
+          <li><a href="#" class="sidebar__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>Settings</span></a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="sidebar__footer">
+      <div class="sidebar__user">
+        <div class="user-avatar" id="userAvatar">JD</div>
+        <div class="user-info"><span class="user-name" id="userName">John Doe</span><span class="user-email" id="userEmail">john@company.com</span></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="dashboard-main" id="dashboardMain">
+    <header class="topbar">
+      <div class="topbar__left">
+        <button class="topbar__menu-btn" id="sidebarToggle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <div class="topbar__breadcrumb">
+          <span>Dashboard</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          <span class="topbar__breadcrumb-current">Accounts</span>
+        </div>
+      </div>
+      <div class="topbar__right">
+        <button class="btn btn--primary btn--sm" id="addAccountBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Account
+        </button>
+      </div>
+    </header>
+
+    <div class="dashboard-content">
+      <div class="page-header">
+        <div>
+          <h1>Connected Accounts</h1>
+          <p>Manage all your social media accounts linked to CaveCrew</p>
+        </div>
+        <div class="page-header__actions">
+          <div class="search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" placeholder="Search accounts..." id="accountSearch" />
+          </div>
+          <div class="filter-tabs" id="platformFilter">
+            <button class="filter-tab filter-tab--active" data-filter="all">All</button>
+            <button class="filter-tab" data-filter="instagram">Instagram</button>
+            <button class="filter-tab" data-filter="twitter">X</button>
+            <button class="filter-tab" data-filter="facebook">Facebook</button>
+            <button class="filter-tab" data-filter="linkedin">LinkedIn</button>
+            <button class="filter-tab" data-filter="tiktok">TikTok</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="accounts-grid" id="accountsGrid">
+        <!-- Populated via JS -->
+      </div>
+
+      <!-- Add Account CTA -->
+      <div class="add-account-cta">
+        <div class="add-account-cta__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <h3>Add Another Account</h3>
+        <p>Connect more social media profiles to manage everything from one place</p>
+        <button class="btn btn--primary" id="addAccountCta">Connect Account</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add Account Modal -->
+  <div class="modal-overlay" id="addAccountModal" style="display:none">
+    <div class="modal modal--account">
+      <div class="modal__header">
+        <h3 id="addAccountModalTitle">Connect Social Account</h3>
+        <button class="modal__close" id="closeAddAccountModal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal__body" id="addAccountModalBody">
+        <!-- Step 1: Platform Selection -->
+        <div class="account-step" id="step1">
+          <p class="modal-subtitle">Choose the social media platform you want to connect</p>
+          <div class="platform-select-grid" id="platformSelectGrid">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+        <!-- Step 2: Credentials -->
+        <div class="account-step" id="step2" style="display:none">
+          <div class="selected-platform-header" id="selectedPlatformHeader">
+            <!-- Populated via JS -->
+          </div>
+          <p class="modal-subtitle">Enter your <span id="platformNameLabel">platform</span> credentials to connect your account</p>
+
+          <div class="security-notice">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <div>
+              <strong>Your credentials are secure</strong>
+              <span>We use 256-bit encryption and never store your passwords in plain text.</span>
+            </div>
+          </div>
+
+          <form id="connectAccountForm" novalidate>
+            <div class="form-group">
+              <label for="accountUsername">Username / Email</label>
+              <div class="input-wrapper">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <input type="text" id="accountUsername" name="username" placeholder="Enter your username or email" autocomplete="username" required />
+              </div>
+              <span class="form-error" id="accountUsernameError"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="accountPassword">Password</label>
+              <div class="input-wrapper">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <input type="password" id="accountPassword" name="password" placeholder="Enter your password" autocomplete="current-password" required />
+                <button type="button" class="input-toggle-pw" id="toggleAccountPw">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <span class="form-error" id="accountPasswordError"></span>
+            </div>
+
+            <div class="form-group" id="twoFAGroup" style="display:none">
+              <label for="twoFACode">Two-Factor Authentication Code</label>
+              <div class="input-wrapper">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                <input type="text" id="twoFACode" name="twofa" placeholder="Enter 6-digit code" maxlength="6" pattern="[0-9]{6}" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="accountLabel">Account Label <span class="optional">(optional)</span></label>
+              <div class="input-wrapper">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                <input type="text" id="accountLabel" name="label" placeholder="e.g. Brand Main Account" />
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Step 3: Connecting -->
+        <div class="account-step" id="step3" style="display:none">
+          <div class="connecting-animation">
+            <div class="connecting-orb" id="connectingOrb"></div>
+            <h3 id="connectingTitle">Connecting to Instagram...</h3>
+            <p id="connectingMsg">Verifying your credentials and fetching account data. This takes a few seconds.</p>
+            <div class="connecting-steps" id="connectingSteps"></div>
+          </div>
+        </div>
+
+        <!-- Step 4: Success -->
+        <div class="account-step" id="step4" style="display:none">
+          <div class="success-screen">
+            <div class="success-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h3>Account Connected!</h3>
+            <p id="successMsg">Your account has been successfully connected to CaveCrew.</p>
+            <div class="connected-account-preview" id="connectedPreview"></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal__footer" id="addAccountModalFooter">
+        <button class="btn btn--ghost" id="backStepBtn" style="display:none">← Back</button>
+        <div class="modal-footer-right">
+          <button class="btn btn--ghost" id="cancelAddAccountBtn">Cancel</button>
+          <button class="btn btn--primary" id="nextStepBtn" disabled>Select a Platform</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/accounts.js"></script>
+</body>
+</html>

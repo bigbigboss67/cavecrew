@@ -1,0 +1,264 @@
+/* =============================================
+   CaveCrew — Auth Page Styles
+   auth.css
+   ============================================= */
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) var(--space-4);
+  position: relative;
+}
+
+.auth-back {
+  position: fixed;
+  top: var(--space-6);
+  left: var(--space-6);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: color var(--transition-fast);
+  z-index: 10;
+}
+
+.auth-back:hover {
+  color: var(--text-primary);
+}
+
+.auth-back svg {
+  width: 16px;
+  height: 16px;
+}
+
+.auth-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.auth-brand {
+  text-align: center;
+}
+
+/* =============================================
+   Auth Card
+   ============================================= */
+.auth-card {
+  width: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255,255,255,0.02);
+  animation: fadeInDown 0.5s ease both;
+}
+
+/* =============================================
+   Auth Tabs
+   ============================================= */
+.auth-tabs {
+  display: flex;
+  position: relative;
+  background: var(--color-bg-2);
+  border-bottom: 1px solid var(--color-border-2);
+}
+
+.auth-tab {
+  flex: 1;
+  padding: var(--space-4);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: color var(--transition-base);
+  position: relative;
+  z-index: 1;
+}
+
+.auth-tab--active {
+  color: var(--text-primary);
+}
+
+.auth-tab-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  border-radius: 1px 1px 0 0;
+  transition: transform var(--transition-slow);
+}
+
+/* =============================================
+   Auth Form
+   ============================================= */
+.auth-form {
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.auth-form__header {
+  margin-bottom: var(--space-2);
+}
+
+.auth-form__header h1 {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-1);
+}
+
+.auth-form__header p {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* Apply icon offset for inputs with icons */
+.auth-form .input-wrapper input {
+  padding-left: 40px;
+}
+
+.auth-form .form-row .input-wrapper input {
+  padding-left: 40px;
+}
+
+.auth-form .form-row .form-group:last-child .input-wrapper input {
+  padding-left: 14px;
+}
+
+/* =============================================
+   Password Strength
+   ============================================= */
+.pw-strength {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-1);
+}
+
+.pw-strength__bar {
+  flex: 1;
+  height: 4px;
+  background: var(--color-surface-3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.pw-strength__fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 2px;
+  transition: all var(--transition-slow);
+  background: var(--color-error);
+}
+
+.pw-strength__fill--fair { background: var(--color-warning); }
+.pw-strength__fill--good { background: var(--color-accent); }
+.pw-strength__fill--strong { background: var(--color-success); }
+
+.pw-strength__label {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  min-width: 80px;
+  text-align: right;
+}
+
+/* =============================================
+   Social Auth
+   ============================================= */
+.auth-divider {
+  position: relative;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: calc(50% - 60px);
+  height: 1px;
+  background: var(--color-border-2);
+}
+
+.auth-divider::before { left: 0; }
+.auth-divider::after { right: 0; }
+
+.social-auth {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.social-auth__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 10px 16px;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all var(--transition-base);
+}
+
+.social-auth__btn:hover {
+  background: var(--color-surface-3);
+  color: var(--text-primary);
+  border-color: var(--color-border);
+}
+
+.social-auth__btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* =============================================
+   Auth Trust
+   ============================================= */
+.auth-trust {
+  display: flex;
+  gap: var(--space-8);
+  justify-content: center;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.trust-item svg {
+  width: 14px;
+  height: 14px;
+  color: var(--color-success);
+}
+
+/* =============================================
+   Auth Note
+   ============================================= */
+.auth-note {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+}
