@@ -1,27 +1,33 @@
 /* =============================================
-   CaveCrew — Auth Page JavaScript
-   auth.js
+   @social — Auth Page JavaScript
+   auth.js — powered by Firebase Auth
    ============================================= */
 
 'use strict';
 
 // =============================================
+// If already logged in, redirect to dashboard
+// =============================================
+auth.onAuthStateChanged(user => {
+  if (user) {
+    window.location.href = 'dashboard.html';
+  }
+});
+
+// =============================================
 // Tab Switching
 // =============================================
 function initTabs() {
-  const signinTab = document.getElementById('signinTab');
-  const signupTab = document.getElementById('signupTab');
+  const signinTab  = document.getElementById('signinTab');
+  const signupTab  = document.getElementById('signupTab');
   const signinForm = document.getElementById('signinForm');
   const signupForm = document.getElementById('signupForm');
-  const indicator = document.getElementById('tabIndicator');
+  const indicator  = document.getElementById('tabIndicator');
 
   if (!signinTab) return;
 
-  // Check URL param for default tab
   const params = new URLSearchParams(window.location.search);
-  if (params.get('mode') === 'signup') {
-    switchTab('signup');
-  }
+  if (params.get('mode') === 'signup') switchTab('signup');
 
   signinTab.addEventListener('click', () => switchTab('signin'));
   signupTab.addEventListener('click', () => switchTab('signup'));
@@ -48,27 +54,23 @@ function initTabs() {
 // =============================================
 function initPasswordStrength() {
   const input = document.getElementById('signupPassword');
-  const fill = document.getElementById('pwStrengthFill');
+  const fill  = document.getElementById('pwStrengthFill');
   const label = document.getElementById('pwStrengthLabel');
-
   if (!input) return;
 
   input.addEventListener('input', () => {
-    const val = input.value;
-    const score = getPasswordScore(val);
-
+    const score = getPasswordScore(input.value);
     const levels = [
-      { pct: 0, cls: '', text: 'Enter a password' },
-      { pct: 25, cls: '', text: 'Too weak' },
-      { pct: 50, cls: 'pw-strength__fill--fair', text: 'Fair' },
-      { pct: 75, cls: 'pw-strength__fill--good', text: 'Good' },
-      { pct: 100, cls: 'pw-strength__fill--strong', text: 'Strong' },
+      { pct: 0,   cls: '',                          text: 'Enter a password' },
+      { pct: 25,  cls: '',                          text: 'Too weak'         },
+      { pct: 50,  cls: 'pw-strength__fill--fair',   text: 'Fair'            },
+      { pct: 75,  cls: 'pw-strength__fill--good',   text: 'Good'            },
+      { pct: 100, cls: 'pw-strength__fill--strong', text: 'Strong'          },
     ];
-
     const level = levels[score];
-    fill.style.width = level.pct + '%';
-    fill.className = 'pw-strength__fill ' + level.cls;
-    label.textContent = level.text;
+    fill.style.width    = level.pct + '%';
+    fill.className      = 'pw-strength__fill ' + level.cls;
+    label.textContent   = level.text;
   });
 
   function getPasswordScore(pw) {
@@ -83,26 +85,6 @@ function initPasswordStrength() {
 }
 
 // =============================================
-// Form Validation
-// =============================================
-function showError(id, msg) {
-  const el = document.getElementById(id);
-  if (el) {
-    el.textContent = msg;
-    el.style.display = 'block';
-  }
-}
-
-function clearError(id) {
-  const el = document.getElementById(id);
-  if (el) el.textContent = '';
-}
-
-function validateEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
-// =============================================
 // Sign In Form
 // =============================================
 function initSignIn() {
@@ -111,54 +93,26 @@ function initSignIn() {
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    clearAllErrors();
 
-    clearError('signinEmailError');
-    clearError('signinPasswordError');
-
-    const email = document.getElementById('signinEmail').value.trim();
+    const email    = document.getElementById('signinEmail').value.trim();
     const password = document.getElementById('signinPassword').value;
-    const remember = document.getElementById('rememberMe').checked;
 
     let valid = true;
-
-    if (!email) {
-      showError('signinEmailError', 'Email is required');
-      valid = false;
-    } else if (!validateEmail(email)) {
-      showError('signinEmailError', 'Please enter a valid email');
-      valid = false;
-    }
-
-    if (!password) {
-      showError('signinPasswordError', 'Password is required');
-      valid = false;
-    }
-
+    if (!email)              { showError('signinEmailError', 'Email is required'); valid = false; }
+    else if (!isEmail(email)) { showError('signinEmailError', 'Enter a valid email'); valid = false; }
+    if (!password)           { showError('signinPasswordError', 'Password is required'); valid = false; }
     if (!valid) return;
 
-    // Simulate loading
     setLoading('signinSubmit', true);
 
-    await simulateDelay(1800);
-
-    setLoading('signinSubmit', false);
-
-    // Demo: any credentials work
-    const nameParts = email.split('@')[0].split('.');
-    const firstName = capitalize(nameParts[0] || 'User');
-    const lastName = capitalize(nameParts[1] || '');
-
-    const userData = {
-      email,
-      name: [firstName, lastName].filter(Boolean).join(' '),
-      firstName,
-      initials: (firstName[0] + (lastName[0] || firstName[1] || '')).toUpperCase(),
-    };
-
-    localStorage.setItem('cavecrew_user', JSON.stringify(userData));
-
-    // Redirect to dashboard
-    window.location.href = 'dashboard.html';
+    try {
+      await signInWithEmail(email, password);
+      // onAuthStateChanged will fire and redirect to dashboard
+    } catch (err) {
+      setLoading('signinSubmit', false);
+      showError('signinPasswordError', getAuthErrorMessage(err.code));
+    }
   });
 }
 
@@ -171,91 +125,61 @@ function initSignUp() {
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-
-    const errors = {
-      firstNameError: '',
-      lastNameError: '',
-      signupEmailError: '',
-      signupPasswordError: '',
-      agreeTermsError: '',
-    };
+    clearAllErrors();
 
     const firstName = document.getElementById('signupFirstName').value.trim();
-    const lastName = document.getElementById('signupLastName').value.trim();
-    const email = document.getElementById('signupEmail').value.trim();
-    const password = document.getElementById('signupPassword').value;
-    const agreed = document.getElementById('agreeTerms').checked;
+    const lastName  = document.getElementById('signupLastName').value.trim();
+    const email     = document.getElementById('signupEmail').value.trim();
+    const password  = document.getElementById('signupPassword').value;
+    const agreed    = document.getElementById('agreeTerms').checked;
 
     let valid = true;
-
-    if (!firstName) { errors.firstNameError = 'First name is required'; valid = false; }
-    if (!email) { errors.signupEmailError = 'Email is required'; valid = false; }
-    else if (!validateEmail(email)) { errors.signupEmailError = 'Enter a valid email'; valid = false; }
-    if (!password) { errors.signupPasswordError = 'Password is required'; valid = false; }
-    else if (password.length < 8) { errors.signupPasswordError = 'Must be at least 8 characters'; valid = false; }
-    if (!agreed) { errors.agreeTermsError = 'You must agree to the terms'; valid = false; }
-
-    Object.keys(errors).forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.textContent = errors[id];
-    });
-
+    if (!firstName)              { showError('firstNameError', 'First name is required'); valid = false; }
+    if (!email)                  { showError('signupEmailError', 'Email is required'); valid = false; }
+    else if (!isEmail(email))     { showError('signupEmailError', 'Enter a valid email'); valid = false; }
+    if (!password)               { showError('signupPasswordError', 'Password is required'); valid = false; }
+    else if (password.length < 6) { showError('signupPasswordError', 'Minimum 6 characters'); valid = false; }
+    if (!agreed)                 { showError('agreeTermsError', 'You must agree to the terms'); valid = false; }
     if (!valid) return;
 
     setLoading('signupSubmit', true);
-    await simulateDelay(2000);
-    setLoading('signupSubmit', false);
 
-    const userData = {
-      email,
-      name: `${firstName} ${lastName}`.trim(),
-      firstName,
-      initials: (firstName[0] + (lastName[0] || firstName[1] || '')).toUpperCase(),
-    };
-
-    localStorage.setItem('cavecrew_user', JSON.stringify(userData));
-    window.location.href = 'dashboard.html';
+    try {
+      await signUpWithEmail(firstName, lastName, email, password);
+      // onAuthStateChanged will fire and redirect to dashboard
+    } catch (err) {
+      setLoading('signupSubmit', false);
+      showError('signupEmailError', getAuthErrorMessage(err.code));
+    }
   });
 }
 
 // =============================================
-// Social Auth Buttons
+// Google Sign In
 // =============================================
 function initSocialAuth() {
   const googleBtn = document.getElementById('googleAuthBtn');
-  const msBtn = document.getElementById('microsoftAuthBtn');
+  const msBtn     = document.getElementById('microsoftAuthBtn');
 
   if (googleBtn) {
     googleBtn.addEventListener('click', async () => {
-      googleBtn.disabled = true;
-      googleBtn.style.opacity = '0.6';
-      await simulateDelay(1500);
-
-      const userData = {
-        email: 'demo@gmail.com',
-        name: 'Demo User',
-        firstName: 'Demo',
-        initials: 'DU',
-      };
-      localStorage.setItem('cavecrew_user', JSON.stringify(userData));
-      window.location.href = 'dashboard.html';
+      setLoading('googleAuthBtn', true, true);
+      try {
+        await signInWithGoogle();
+        // onAuthStateChanged redirect
+      } catch (err) {
+        setLoading('googleAuthBtn', false, true);
+        // Show brief error below form
+        const errEl = document.getElementById('signinPasswordError') || document.getElementById('signupEmailError');
+        if (errEl) errEl.textContent = getAuthErrorMessage(err.code);
+      }
     });
   }
 
+  // Microsoft — placeholder (requires Azure app registration)
   if (msBtn) {
-    msBtn.addEventListener('click', async () => {
-      msBtn.disabled = true;
-      msBtn.style.opacity = '0.6';
-      await simulateDelay(1500);
-
-      const userData = {
-        email: 'demo@company.com',
-        name: 'Demo User',
-        firstName: 'Demo',
-        initials: 'DU',
-      };
-      localStorage.setItem('cavecrew_user', JSON.stringify(userData));
-      window.location.href = 'dashboard.html';
+    msBtn.addEventListener('click', () => {
+      alert('Microsoft sign-in requires Azure app registration. Use email/password or Google for now.');
     });
   }
 }
@@ -263,22 +187,35 @@ function initSocialAuth() {
 // =============================================
 // Helpers
 // =============================================
-function setLoading(btnId, loading) {
+function showError(id, msg) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = msg;
+}
+
+function clearAllErrors() {
+  ['signinEmailError','signinPasswordError',
+   'firstNameError','lastNameError','signupEmailError','signupPasswordError','agreeTermsError']
+    .forEach(id => showError(id, ''));
+}
+
+function isEmail(val) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+}
+
+function setLoading(btnId, loading, isSocial = false) {
   const btn = document.getElementById(btnId);
   if (!btn) return;
-  const text = btn.querySelector('.btn-text');
-  const spinner = btn.querySelector('.btn-spinner');
   btn.disabled = loading;
-  if (text) text.hidden = loading;
+
+  if (isSocial) {
+    btn.style.opacity = loading ? '0.6' : '1';
+    return;
+  }
+
+  const text    = btn.querySelector('.btn-text');
+  const spinner = btn.querySelector('.btn-spinner');
+  if (text)    text.hidden    = loading;
   if (spinner) spinner.hidden = !loading;
-}
-
-function simulateDelay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
 
 // =============================================
