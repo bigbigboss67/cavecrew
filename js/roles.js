@@ -82,11 +82,13 @@ function getCurrentRole() {
 }
 
 function getCurrentUser() {
-  // Firebase user
+  // Use globally stored user (set by requireAuth — most reliable)
+  if (window._resolvedUser) return window._resolvedUser;
+  // Firebase user (sync after auth resolves)
   if (typeof auth !== 'undefined' && auth && auth.currentUser) {
     return auth.currentUser;
   }
-  // Session user (Google/Microsoft)
+  // Session user (Google/Microsoft standalone)
   try {
     return JSON.parse(sessionStorage.getItem('socialUser') || 'null');
   } catch(e) { return null; }

@@ -81,16 +81,15 @@ const composerTitle    = document.getElementById('composerTitle');
 
 // ── Init ──────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  // Wait for auth
-  const checkAuth = setInterval(() => {
-    if (getCurrentRole()) {
-      clearInterval(checkAuth);
+  // Wait for requireAuth to store the resolved user in window._resolvedUser
+  const checkReady = setInterval(() => {
+    if (window._resolvedUser) {
+      clearInterval(checkReady);
       initScheduler();
     }
-  }, 100);
-
-  // Fallback
-  setTimeout(() => { clearInterval(checkAuth); initScheduler(); }, 2000);
+  }, 50);
+  // Hard fallback after 3 seconds (guest/session user case)
+  setTimeout(() => { clearInterval(checkReady); if (typeof initScheduler === 'function') initScheduler(); }, 3000);
 });
 
 function initScheduler() {

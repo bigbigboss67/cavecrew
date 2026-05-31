@@ -146,6 +146,7 @@ function signInWithMicrosoft() {
 // =============================================
 async function signOutUser() {
   sessionStorage.removeItem('socialUser');
+  window._resolvedUser = null;
   if (FIREBASE_CONFIGURED && auth) {
     try { await auth.signOut(); } catch(e) {}
   }
@@ -159,6 +160,7 @@ function requireAuth(callback) {
   // Check sessionStorage first (Google/Microsoft users)
   const sessionUser = getSessionUser();
   if (sessionUser) {
+    window._resolvedUser = sessionUser;
     callback(sessionUser);
     return;
   }
@@ -168,6 +170,7 @@ function requireAuth(callback) {
       if (!user) {
         window.location.href = 'login.html';
       } else {
+        window._resolvedUser = user; // Store globally for role checks
         callback(user);
       }
     });
