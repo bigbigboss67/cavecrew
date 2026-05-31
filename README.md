@@ -1,4 +1,4 @@
-# CaveCrew 🚀
+# @social 🚀
 
 **Enterprise Social Media Management Platform** — Manage all your social media accounts from one powerful command center.
 
@@ -40,3 +40,4 @@ Any email + password (8+ characters) will work on the demo.
 ---
 
 Built with vanilla HTML, CSS & JavaScript. No frameworks, no dependencies.
+

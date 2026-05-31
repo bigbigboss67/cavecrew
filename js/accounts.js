@@ -1,5 +1,5 @@
 /* =============================================
-   CaveCrew — Accounts Page JavaScript
+   @social — Accounts Page JavaScript
    accounts.js
    ============================================= */
 
@@ -443,7 +443,7 @@ function showSuccessScreen() {
   const username = document.getElementById('accountUsername')?.value || 'your account';
   const label = document.getElementById('accountLabel')?.value || selectedPlatform?.name;
 
-  if (msg) msg.textContent = `${username} has been successfully connected to CaveCrew. We're syncing your data now.`;
+  if (msg) msg.textContent = `${username} has been successfully connected to @social. We're syncing your data now.`;
   if (preview && selectedPlatform) {
     preview.innerHTML = `
       <div style="display:flex;align-items:center;gap:12px">
@@ -529,3 +529,4 @@ document.addEventListener('DOMContentLoaded', () => {
   initSearch();
   initAddAccountModal();
 });
+
