@@ -1,37 +1,31 @@
 // =============================================
-// Firebase Configuration
-// @social — replace values with your Firebase project
+// Firebase Configuration — @social
 // =============================================
 
 const firebaseConfig = {
-  apiKey: "REPLACE_API_KEY",
-  authDomain: "REPLACE_AUTH_DOMAIN",
-  projectId: "REPLACE_PROJECT_ID",
-  storageBucket: "REPLACE_STORAGE_BUCKET",
-  messagingSenderId: "REPLACE_MESSAGING_SENDER_ID",
-  appId: "REPLACE_APP_ID"
+  apiKey: "AIzaSyBdch9jVPnHN5IpWlsVKAa8ev_RQRItH-k",
+  authDomain: "social-media-79409.firebaseapp.com",
+  projectId: "social-media-79409",
+  storageBucket: "social-media-79409.firebasestorage.app",
+  messagingSenderId: "658821839969",
+  appId: "1:658821839969:web:b8d3154147587e0edcbe20",
+  measurementId: "G-P4EP3MEBTD"
 };
 
 // ── Google OAuth Client ID ────────────────────
-// Get from: console.cloud.google.com
-//   → APIs & Services → Credentials → Create OAuth 2.0 Client ID
-//   → Add Authorized origin: https://cavecrew.vercel.app
+// Firebase handles Google OAuth automatically via authDomain above
 const GOOGLE_CLIENT_ID = "REPLACE_GOOGLE_CLIENT_ID";
 
 // ── Microsoft Azure App ID ────────────────────
-// Get from: portal.azure.com
-//   → Azure Active Directory → App registrations → New registration
-//   → Redirect URI: https://cavecrew.vercel.app/login.html
 const MICROSOFT_CLIENT_ID = "REPLACE_MICROSOFT_CLIENT_ID";
 
-// ── Check if Firebase is configured ──────────
-const FIREBASE_CONFIGURED = !firebaseConfig.apiKey.startsWith("REPLACE");
+// ── Firebase is configured ✅ ─────────────────
+const FIREBASE_CONFIGURED = true;
 
-// Initialize Firebase only if configured
-let auth = null;
-if (FIREBASE_CONFIGURED) {
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  }
-  auth = firebase.auth();
+// Initialize Firebase
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
 }
+
+// Auth instance used by all pages
+const auth = firebase.auth();
