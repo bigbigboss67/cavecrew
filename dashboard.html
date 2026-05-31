@@ -66,9 +66,10 @@
             </a>
           </li>
           <li>
-            <a href="#" class="sidebar__nav-item" id="navScheduler">
+            <a href="scheduler.html" class="sidebar__nav-item" id="navScheduler">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
               <span>Scheduler</span>
+              <span class="nav-badge" id="pendingBadgeDash" style="display:none;background:#f59e0b">0</span>
             </a>
           </li>
           <li>
@@ -163,10 +164,10 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
           <span class="notif-dot"></span>
         </button>
-        <button class="btn btn--primary btn--sm" id="newPostBtn">
+        <a href="scheduler.html" class="btn btn--primary btn--sm" id="newPostBtn">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           New Post
-        </button>
+        </a>
       </div>
     </header>
 
@@ -355,7 +356,7 @@
         <div class="dashboard-card">
           <div class="card-header">
             <h3>Upcoming Posts</h3>
-            <a href="#" class="card-link">View Schedule</a>
+            <a href="scheduler.html" class="card-link">View Schedule →</a>
           </div>
           <div class="scheduled-posts" id="scheduledPostsList"></div>
         </div>
@@ -445,12 +446,18 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="js/firebase-config.js"></script>
   <script src="js/firebase-auth.js"></script>
+  <script src="js/roles.js"></script>
   <script>
-    // Protect this page — redirect to login if not signed in
     requireAuth(function(user) {
       populateUserUI(user);
+      applyRoleRestrictions();
+      // Show pending badge for admin
+      if (isAdmin()) {
+        var count = getPendingCount();
+        var badge = document.getElementById('pendingBadgeDash');
+        if (badge && count > 0) { badge.textContent = count; badge.style.display = 'inline-flex'; }
+      }
     });
-    // Sign out button
     document.addEventListener('DOMContentLoaded', function() {
       var signOutBtn = document.getElementById('signOutBtn');
       if (signOutBtn) signOutBtn.addEventListener('click', signOutUser);
